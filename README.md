@@ -1,1 +1,1 @@
-# Staking
+# chiba-staking-frontend
