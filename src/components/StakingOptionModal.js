@@ -7,7 +7,7 @@ import { global } from "../config/global";
 import { parseUnits } from 'viem';
 import { writeContract, prepareWriteContract, waitForTransaction } from "@wagmi/core"
 import { toast } from "react-toastify";
-import StakingContractABI from "../assets/abi/stakingContract.json";
+import StakingContractABI from "../assets/abi/staking.json";
 import chibaTokenContractABI from "../assets/abi/chibaTokenContract.json";
 import flyTokenContractABI from "../assets/abi/flyToken.json";
 import { staticConfig } from "../components/static";
@@ -31,7 +31,7 @@ const StakingOptionModal = (props) => {
     // const flyTokenContractAddress = global.CHIBA_TOKEN.address;
     const flyTokenContractAddress =  "0x424705ca44ffBb4eF45d4bE15EFA1344dd24C219";
     // const stakingContractAddress = global.STAKING_CONTRACTS;
-    const stakingContractAddress = "0x80BE817CFa322917C8B8fE0C0d24DDC5a1c4C806";
+    const stakingContractAddress = global.FlySTAKING_CONTRACTS;
     const ChibaDecimals = global.CHIBA_TOKEN.decimals;
 
     let dataStaking = {
@@ -162,9 +162,7 @@ const StakingOptionModal = (props) => {
                     address: stakingContractAddress,
                     abi: StakingContractABI,
                     functionName: 'stake',
-                    // args: [0, parseUnits(stakeAmount.toString(), ChibaDecimals)]
                     args: [parseUnits(stakeAmount, global.EthDecimals), 10]
-                    // args: [5100000000000000000, 10]
                 }
                 const preparedData = await prepareWriteContract(dataStaking)
                 const writeData = await writeContract(preparedData)

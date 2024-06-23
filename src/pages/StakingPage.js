@@ -21,9 +21,10 @@ export default function StakingPage() {
   const { address } = useAccount();
   const [refresh, setRefresh] = useState(false);
 
-  const [showButtonList_14, setShowButtonList_14] = useState(false);
-  const [showButtonList_28, setShowButtonList_28] = useState(false);
-  const [showButtonList_56, setShowButtonList_56] = useState(false);
+  const [showButtonList_10, setShowButtonList_10] = useState(false);
+  const [showButtonList_20, setshowButtonList_20] = useState(false);
+  const [showButtonList_30, setShowButtonList_30] = useState(false);
+  const [showButtonList_40, setShowButtonList_40] = useState(false);
 
   const [stakedPercent_10, setStakedPercent_10] = useState(0);
   const [stakedPercent_20, setStakedPercent_20] = useState(0);
@@ -58,6 +59,7 @@ export default function StakingPage() {
   // });
 
   const {
+    // Fly add
     totalStakedByDuration,
     tokenBalance,
     totalStaked,
@@ -69,6 +71,11 @@ export default function StakingPage() {
     totalStakedPerDuration_20,
     totalStakedPerDuration_30,
     totalStakedPerDuration_40,
+    stakeStartTime_10,
+    stakeStartTime_20,
+    stakeStartTime_30,
+    stakeStartTime_40,
+
     walletBalance, // Amount of connected account's CHIBA tokens
     // For 14 days pool
     totalEthRewarded_14, // totalRewards
@@ -101,6 +108,85 @@ export default function StakingPage() {
   const IUniswapV2Router01Address = global.IUniswapV2Router01Address;
   const addresses = [global.WethContractAddress, global.CHIBA_TOKEN.address];
 
+  const [tokenRewarded_10, settokenRewarded_10] = useState(null);
+  const [tokenRewarded_20, settokenRewarded_20] = useState(null);
+  const [tokenRewarded_30, settokenRewarded_30] = useState(null);
+  const [tokenRewarded_40, settokenRewarded_40] = useState(null);
+
+  useEffect(() => {
+    async function fetchtokenRewardDates() {
+      try {
+        // if(totalStakedPerDuration_10 !== 0 ) {
+        const tokenRewarded_10 = await readContract({
+          address: global.FlySTAKING_CONTRACTS,
+          abi: StakingContract,
+          functionName: "calculateReward",
+          args: [
+            address,
+            totalStakedPerDuration_10 * 10 ** global.EthDecimals,
+            "10",
+          ],
+        });
+        // }
+        console.log("fly_constreward_10", tokenRewarded_10);
+        // if(totalStakedPerDuration_10 !== 0  && totalStakedPerDuration_20 !== 0 ){
+        // const tokenRewarded_20 = await readContract({
+        //   address: global.FlySTAKING_CONTRACTS,
+        //   abi: StakingContract,
+        //   functionName: "calculateReward",
+        //   args: [
+        //     address,
+        //     totalStakedPerDuration_20 * 10 ** global.EthDecimals,
+        //     "20",
+        //   ],
+        // });
+        // }
+        console.log("fly_constreward_20_before", tokenRewarded_30);
+        // const tokenRewarded_30 = await readContract({
+        //   address: global.FlySTAKING_CONTRACTS,
+        //   abi: StakingContract,
+        //   functionName: "calculateReward",
+        //   args: [
+        //     address,
+        //     totalStakedPerDuration_30 * 10 ** global.EthDecimals,
+        //     "30",
+        //   ],
+        // });
+        console.log("fly_constreward_20_after", tokenRewarded_30);
+        const tokenRewarded_40 = await readContract({
+          address: global.FlySTAKING_CONTRACTS,
+          abi: StakingContract,
+          functionName: "calculateReward",
+          args: [
+            address,
+            totalStakedPerDuration_40 * 10 ** global.EthDecimals,
+            "40",
+          ],
+        });
+
+        settokenRewarded_10(tokenRewarded_10);
+        settokenRewarded_20(tokenRewarded_20);
+        settokenRewarded_30(tokenRewarded_30);
+        settokenRewarded_40(tokenRewarded_40);
+      } catch (error) {
+        console.error("Error fetching tokenReward Dates:", error);
+      }
+    }
+
+    fetchtokenRewardDates();
+  }, [address, tokenBalance]);
+  const tokenRewardedN_10 = tokenRewarded_10
+    ? parseFloat(formatUnits((tokenRewarded_10), global.EthDecimals)).toFixed(2)
+    : 0;
+  console.log("fly_const_tokenRewarded_10", tokenRewarded_10);
+  console.log("fly_const_tokenRewardedN_10", tokenRewardedN_10);
+  const tokenRewardedN_20 = tokenRewarded_20
+    ? parseFloat(formatUnits(tokenRewarded_20, global.EthDecimals)).toFixed(2)
+    : 0;
+  const tokenRewardedN_30 = tokenRewarded_30
+    ? parseFloat(formatUnits(tokenRewarded_30, global.EthDecimals)).toFixed(2)
+    : 0;
+   const tokenRewardedN_40 = tokenRewarded_40? parseFloat(formatUnits(tokenRewarded_40, global.EthDecimals)).toFixed(2): 0;
   const totalEthRewarded = Number(
     parseFloat(totalEthRewarded_14) +
       parseFloat(totalEthRewarded_28) +
@@ -118,33 +204,42 @@ export default function StakingPage() {
     if (userStakedByDuration_10 !== 0 && totalStakedPerDuration_10 !== 0)
       setStakedPercent_10(
         parseFloat(
-          (Number(userStakedByDuration_10) * 100) / Number(totalStakedPerDuration_10)
+          (Number(userStakedByDuration_10) * 100) /
+            Number(totalStakedPerDuration_10)
         ).toFixed(2)
       );
     else if (userStakedByDuration_10 === 0) setStakedPercent_10(0);
     if (userStakedByDuration_20 !== 0 && totalStakedPerDuration_20 !== 0)
       setStakedPercent_20(
         parseFloat(
-          (Number(userStakedByDuration_20) * 100) / Number(totalStakedPerDuration_20)
+          (Number(userStakedByDuration_20) * 100) /
+            Number(totalStakedPerDuration_20)
         ).toFixed(2)
       );
     else if (userStakedByDuration_20 === 0) setStakedPercent_20(0);
     if (userStakedByDuration_30 && totalStakedPerDuration_30 !== 0)
       setstakedPercent_30(
         parseFloat(
-          (Number(userStakedByDuration_30) * 100) / Number(totalStakedPerDuration_30)
+          (Number(userStakedByDuration_30) * 100) /
+            Number(totalStakedPerDuration_30)
         ).toFixed(2)
       );
     else if (userStakedByDuration_30 === 0) setstakedPercent_30(0);
     if (userStakedByDuration_40 && totalStakedPerDuration_40 !== 0)
       setstakedPercent_40(
         parseFloat(
-          (Number(userStakedByDuration_40) * 100) / Number(totalStakedPerDuration_40)
+          (Number(userStakedByDuration_40) * 100) /
+            Number(totalStakedPerDuration_40)
         ).toFixed(2)
       );
     else if (userStakedByDuration_40 === 0) setstakedPercent_40(0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userStakedByDuration_10, userStakedByDuration_20, userStakedByDuration_30, userStakedByDuration_40, userStakedByDuration_20, userStakedByDuration_30]);
+  }, [
+    userStakedByDuration_10,
+    userStakedByDuration_20,
+    userStakedByDuration_30,
+    userStakedByDuration_40,
+  ]);
 
   const handleClickOutside = (event) => {
     try {
@@ -153,9 +248,10 @@ export default function StakingPage() {
         wrapperRef.current &&
         !wrapperRef.current.contains(event.target)
       ) {
-        setShowButtonList_14(false);
-        setShowButtonList_28(false);
-        setShowButtonList_56(false);
+        setShowButtonList_10(false);
+        setshowButtonList_20(false);
+        setShowButtonList_30(false);
+        setShowButtonList_40(false);
       }
     } catch (e) {
       console.log(e);
@@ -178,7 +274,7 @@ export default function StakingPage() {
             <div className="flex flex-col items-center text-white font-18">
               <h1 className="flex flex-row text-white font-18">ChiBa Neko</h1>
               <h1 className="block md:hidden flex flex-row items-center text-white -ml-9 font-18">
-                Staking
+                {/* Staking */}
               </h1>
             </div>
           </div>
@@ -187,8 +283,7 @@ export default function StakingPage() {
               <img src={chibaIco} alt="" className="h-18 w-20" />
               <div className="flex flex-col">
                 <h1 className="text-sm text-white text-opacity-75">
-                  $CHIBA Balance11{" "}
-                  {/* $CHIBA Balance{tokenBalance} */}
+                  $CHIBA Balance11 {/* $CHIBA Balance{tokenBalance} */}
                 </h1>
                 {/* <h2 className="text-base font-bold">{walletBalance} $CHIBA</h2> */}
                 <h2 className="text-base font-bold">{tokenBalance} $CHIBAq</h2>
@@ -272,8 +367,8 @@ export default function StakingPage() {
                     Pool Size
                   </h1>
                   <p className="lg:text-lg text-sm font-medium">
-                    Leverage the power of compounding by staking your $CHIBA
-                    tokens and compounding rewards as they accrue.
+                    {/* Leverage the power of compounding by staking your $CHIBA
+                    tokens and compounding rewards as they accrue. */}
                   </p>
                 </div>
               </div>
@@ -304,7 +399,8 @@ export default function StakingPage() {
                       </h1>
                     </div>
                   </div>
-                  <div className="font-lg text-center text-white text-sm rounded connect-button w-full">11
+                  <div className="font-lg text-center text-white text-sm rounded connect-button w-full">
+                    11
                     <StakeBtn
                       setRefresh={setRefresh}
                       refresh={refresh}
@@ -326,7 +422,7 @@ export default function StakingPage() {
                   <div className="flex items-center justify-between">
                     <h1 className="text-base font-bold">20 Days</h1>
                     <h2 className="text-sm font-medium text-white text-opacity-75">
-                    20% FLY token Rewards{" "}
+                      20% FLY token Rewards{" "}
                     </h2>
                   </div>
                   <h1 className="text-violet-2">
@@ -348,7 +444,8 @@ export default function StakingPage() {
                       </h1>
                     </div>
                   </div>
-                  <div className="font-lg text-center text-white text-sm rounded connect-button w-full">22
+                  <div className="font-lg text-center text-white text-sm rounded connect-button w-full">
+                    22
                     <StakeBtn
                       connected={walletConnected}
                       stakeModalOption={20}
@@ -368,7 +465,7 @@ export default function StakingPage() {
                   <div className="flex items-center justify-between">
                     <h1 className="text-base font-bold">30 Days</h1>
                     <h2 className="text-sm font-medium text-white text-opacity-75">
-                    30% FLY token Rewards
+                      30% FLY token Rewards
                     </h2>
                   </div>
                   <h1 className="text-violet-2">
@@ -390,7 +487,8 @@ export default function StakingPage() {
                       </h1>
                     </div>
                   </div>
-                  <div className="font-lg text-center text-white text-sm rounded connect-button w-full">33
+                  <div className="font-lg text-center text-white text-sm rounded connect-button w-full">
+                    33
                     <StakeBtn
                       connected={walletConnected}
                       stakeModalOption={30}
@@ -432,7 +530,8 @@ export default function StakingPage() {
                       </h1>
                     </div>
                   </div>
-                  <div className="font-lg text-center text-white text-sm rounded connect-button w-full">44
+                  <div className="font-lg text-center text-white text-sm rounded connect-button w-full">
+                    44
                     <StakeBtn
                       connected={walletConnected}
                       stakeModalOption={40}
@@ -463,7 +562,8 @@ export default function StakingPage() {
               <div className="w-full border border-gray-1 border-opacity-30 rounded-xl lg:px-6 px-3 py-5 relative bg-violet-6 bg-opacity-75 flex flex-col gap-5">
                 {userStakedByDuration_10 === 0 &&
                   userStakedByDuration_20 === 0 &&
-                  userStakedByDuration_30 === 0 && (
+                  userStakedByDuration_30 === 0 && 
+                  userStakedByDuration_40 === 0 && (
                     <div className="flex flex-col items-center justify-center w-full h-full py-6 md:py-10 gap-3">
                       <img
                         src="/image/chiba.png"
@@ -473,7 +573,8 @@ export default function StakingPage() {
                       <h1 className="text-center text-xl font-medium">
                         Connect your wallet
                       </h1>
-                      <div className="font-medium text-center text-white text-sm rounded connect-button">55
+                      <div className="font-medium text-center text-white text-sm rounded connect-button">
+                        55
                         <StakeBtn
                           connected={walletConnected}
                           stakeModalOption={0}
@@ -489,15 +590,19 @@ export default function StakingPage() {
                       </div>
                     </div>
                   )}
+
+
+
+                  //// 1111
                 {userStakedByDuration_10 !== 0 && (
                   <div className="flex lg:flex-row flex-col lg:items-center lg:justify-between item-start lg:gap-0 gap-5 lg:p-5 p-3 rounded md:border-0 border border-gray-1 border-opacity-30 relative bg-violet-4">
                     <div className="gap-3 w-full flex items-center">
                       <div className="flex flex-col">
                         <h1 className="lg:text-lg text-base font-bold">
-                          15% APR
+                          10% APR
                         </h1>
                         <h2 className="lg:text-base text-sm font-medium text-white text-opacity-75">
-                          14 Day Lockup
+                          10 Days Lockup
                         </h2>
                       </div>
                     </div>
@@ -516,21 +621,21 @@ export default function StakingPage() {
                         </h2>
                       </div>
                     </div>
-                    <div className="gap-3 w-full flex flex-row lg:flex-col items-center lg:items-start">
+                    {/* <div className="gap-3 w-full flex flex-row lg:flex-col items-center lg:items-start">
                       <img
                         src={giftIco}
                         alt=""
                         className="lg:h-8 lg:w-8 w-6 h-6"
                       />
-                      <div className="flex flex-col">
+                      {/* <div className="flex flex-col">
                         <h1 className="lg:text-lg text-base font-bold">
                           {unClaimed_14} ETH
                         </h1>
                         <h2 className="lg:text-base text-sm font-medium text-white text-opacity-75">
-                          Unclaimed ETH
+                          Unclaimed ETHaa
                         </h2>
-                      </div>
-                    </div>
+                      </div> */}
+                    {/* </div> */} 
                     <div className="gap-3 w-full flex flex-row lg:flex-col items-center lg:items-start">
                       <img
                         src={chibaIco}
@@ -539,7 +644,8 @@ export default function StakingPage() {
                       />
                       <div className="flex flex-col">
                         <h1 className="lg:text-lg text-base font-bold">
-                          {tokenRewarded_14} $CHIBA
+                          {Number(tokenRewardedN_10)} $CHIBA
+                          {/* {tokenRewarded_14} $CHIBAaa */}
                         </h1>
                         <h2 className="lg:text-base text-sm font-medium text-white text-opacity-75">
                           Earned $CHIBA
@@ -548,17 +654,19 @@ export default function StakingPage() {
                     </div>
                     <div className="gap-3 w-full flex items-center">
                       <LockRemain
-                        stakedTimePerUser={stakedTimePerUser_14}
-                        type={14}
+                        stakedTimePerUser={stakeStartTime_10}
+                        type={10}
                       />
                     </div>
                     <div className="lg:block hidden relative">
                       <button
                         className="outline-none"
                         onClick={() => {
-                          setShowButtonList_28(false);
-                          setShowButtonList_56(false);
-                          setShowButtonList_14(!showButtonList_14);
+                          console.log("10-------------")
+                          setshowButtonList_20(false);
+                          setShowButtonList_30(false);
+                          setShowButtonList_40(false);
+                          setShowButtonList_10(!showButtonList_10);
                         }}
                         disabled={
                           compoundPending === true ||
@@ -582,22 +690,25 @@ export default function StakingPage() {
                           ></path>
                         </svg>
                       </button>
-                      {showButtonList_14 === true && (
+                      {showButtonList_10 === true && (
                         <CommandBtnList
                           setRefresh={setRefresh}
                           refresh={refresh}
                           wrapperRef={wrapperRef}
-                          poolOption={14}
+                          poolOption={10}
                           userStakedByDuration_10={userStakedByDuration_10}
                           userStakedByDuration_20={userStakedByDuration_20}
                           userStakedByDuration_30={userStakedByDuration_30}
+                          userStakedByDuration_40={userStakedByDuration_40}
                           // _minTokensToReceive1={_minTokensToReceive1}
                           // _minTokensToReceive2={_minTokensToReceive2}
                           // _minTokensToReceive3={_minTokensToReceive3}
-                          setShowButtonList_14={setShowButtonList_14}
-                          setShowButtonList_28={setShowButtonList_28}
-                          setShowButtonList_56={setShowButtonList_56}
+                          setShowButtonList_10={setShowButtonList_10}
+                          setshowButtonList_20={setshowButtonList_20}
+                          setShowButtonList_30={setShowButtonList_30}
+                          setShowButtonList_40={setShowButtonList_40}
                           tokenRewarded_14={tokenRewarded_14}
+                          tokenRewarded_10={tokenRewarded_10}
                           tokenRewarded_28={tokenRewarded_28}
                           tokenRewarded_56={tokenRewarded_56}
                           compoundPending={compoundPending}
@@ -616,10 +727,11 @@ export default function StakingPage() {
                         wrapperRef={wrapperRef}
                         setRefresh={setRefresh}
                         refresh={refresh}
-                        poolOption={14}
+                        poolOption={10}
                         userStakedByDuration_10={userStakedByDuration_10}
                         userStakedByDuration_20={userStakedByDuration_20}
                         userStakedByDuration_30={userStakedByDuration_30}
+                        userStakedByDuration_40={userStakedByDuration_40}
                         // _minTokensToReceive1={_minTokensToReceive1}
                         // _minTokensToReceive2={_minTokensToReceive2}
                         // _minTokensToReceive3={_minTokensToReceive3}
@@ -638,16 +750,20 @@ export default function StakingPage() {
                     </div>
                   </div>
                 )}
+
+
+
+                //// 22222
                 {userStakedByDuration_20 !== 0 && (
                   // <div className="w-full border border-gray-1 border-opacity-30 rounded-xl lg:px-6 px-3 py-5 relative bg-violet-6 bg-opacity-75 flex flex-col gap-5">
                   <div className="flex lg:flex-row flex-col lg:items-center lg:justify-between item-start lg:gap-0 gap-5 lg:p-5 p-3 rounded md:border-0 border border-gray-1 border-opacity-30 relative bg-violet-4">
                     <div className="gap-3 w-full flex items-center">
                       <div className="flex flex-col">
                         <h1 className="lg:text-lg text-base font-bold">
-                          40% APR
+                          20% APR
                         </h1>
                         <h2 className="lg:text-base text-sm font-medium text-white text-opacity-75">
-                          28 Day Lockup
+                          20 Days Lockup
                         </h2>
                       </div>
                     </div>
@@ -689,7 +805,8 @@ export default function StakingPage() {
                       />
                       <div className="flex flex-col">
                         <h1 className="lg:text-lg text-base font-bold">
-                          {tokenRewarded_28} $CHIBA
+                          {tokenRewardedN_20 ? tokenRewardedN_20 : 0} $CHIBA
+                          {/* {tokenRewarded_28} $CHIBA */}
                         </h1>
                         <h2 className="lg:text-base text-sm font-medium text-white text-opacity-75">
                           Earned $CHIBA
@@ -698,17 +815,19 @@ export default function StakingPage() {
                     </div>
                     <div className="gap-3 w-full flex items-center">
                       <LockRemain
-                        stakedTimePerUser={stakedTimePerUser_28}
-                        type={28}
+                        stakedTimePerUser={stakeStartTime_20}
+                        type={20}
                       />
                     </div>
                     <div className="lg:block hidden relative">
                       <button
                         className="outline-none"
                         onClick={() => {
-                          setShowButtonList_14(false);
-                          setShowButtonList_56(false);
-                          setShowButtonList_28(!showButtonList_28);
+                          console.log("fly_20---------")
+                          setShowButtonList_10(false);
+                          setShowButtonList_30(false);
+                          setShowButtonList_40(false);
+                          setshowButtonList_20(!showButtonList_20);
                         }}
                         disabled={
                           compoundPending === true ||
@@ -732,21 +851,23 @@ export default function StakingPage() {
                           ></path>
                         </svg>
                       </button>
-                      {showButtonList_28 === true && (
+                      {showButtonList_20 === true && (
                         <CommandBtnList
                           setRefresh={setRefresh}
                           refresh={refresh}
                           wrapperRef={wrapperRef}
-                          poolOption={28}
+                          poolOption={20}
                           userStakedByDuration_10={userStakedByDuration_10}
                           userStakedByDuration_20={userStakedByDuration_20}
                           userStakedByDuration_30={userStakedByDuration_30}
+                          userStakedByDuration_40={userStakedByDuration_40}
                           // _minTokensToReceive1={_minTokensToReceive1}
                           // _minTokensToReceive2={_minTokensToReceive2}
                           // _minTokensToReceive3={_minTokensToReceive3}
-                          setShowButtonList_14={setShowButtonList_14}
-                          setShowButtonList_28={setShowButtonList_28}
-                          setShowButtonList_56={setShowButtonList_56}
+                          setShowButtonList_10={setShowButtonList_10}
+                          setshowButtonList_20={setshowButtonList_20}
+                          setShowButtonList_30={setShowButtonList_30}
+                          setShowButtonList_40={setShowButtonList_40}
                           tokenRewarded_14={tokenRewarded_14}
                           tokenRewarded_28={tokenRewarded_28}
                           tokenRewarded_56={tokenRewarded_56}
@@ -766,10 +887,11 @@ export default function StakingPage() {
                         wrapperRef={wrapperRef}
                         setRefresh={setRefresh}
                         refresh={refresh}
-                        poolOption={28}
+                        poolOption={20}
                         userStakedByDuration_10={userStakedByDuration_10}
                         userStakedByDuration_20={userStakedByDuration_20}
                         userStakedByDuration_30={userStakedByDuration_30}
+                        userStakedByDuration_40={userStakedByDuration_40}
                         // _minTokensToReceive1={_minTokensToReceive1}
                         // _minTokensToReceive2={_minTokensToReceive2}
                         // _minTokensToReceive3={_minTokensToReceive3}
@@ -788,15 +910,24 @@ export default function StakingPage() {
                     </div>
                   </div>
                 )}
+
+
+                ///// 3333
+                
+
+
+
+//// 222223333333
                 {userStakedByDuration_30 !== 0 && (
+                  // <div className="w-full border border-gray-1 border-opacity-30 rounded-xl lg:px-6 px-3 py-5 relative bg-violet-6 bg-opacity-75 flex flex-col gap-5">
                   <div className="flex lg:flex-row flex-col lg:items-center lg:justify-between item-start lg:gap-0 gap-5 lg:p-5 p-3 rounded md:border-0 border border-gray-1 border-opacity-30 relative bg-violet-4">
                     <div className="gap-3 w-full flex items-center">
                       <div className="flex flex-col">
                         <h1 className="lg:text-lg text-base font-bold">
-                          60% APR
+                          40% APR
                         </h1>
                         <h2 className="lg:text-base text-sm font-medium text-white text-opacity-75">
-                          56 Day Lockup
+                          28 Day Lockup
                         </h2>
                       </div>
                     </div>
@@ -823,7 +954,7 @@ export default function StakingPage() {
                       />
                       <div className="flex flex-col">
                         <h1 className="lg:text-lg text-base font-bold">
-                          {unClaimed_56} ETH
+                          {unClaimed_28} ETH
                         </h1>
                         <h2 className="lg:text-base text-sm font-medium text-white text-opacity-75">
                           Unclaimed ETH
@@ -838,7 +969,8 @@ export default function StakingPage() {
                       />
                       <div className="flex flex-col">
                         <h1 className="lg:text-lg text-base font-bold">
-                          {tokenRewarded_56} $CHIBA
+                          {tokenRewardedN_30 ? tokenRewardedN_30 : 0} $CHIBA
+                          {/* {tokenRewarded_28} $CHIBA */}
                         </h1>
                         <h2 className="lg:text-base text-sm font-medium text-white text-opacity-75">
                           Earned $CHIBA
@@ -847,17 +979,19 @@ export default function StakingPage() {
                     </div>
                     <div className="gap-3 w-full flex items-center">
                       <LockRemain
-                        stakedTimePerUser={stakedTimePerUser_56}
-                        type={56}
+                        stakedTimePerUser={stakeStartTime_30}
+                        type={30}
                       />
                     </div>
                     <div className="lg:block hidden relative">
                       <button
                         className="outline-none"
                         onClick={() => {
-                          setShowButtonList_14(false);
-                          setShowButtonList_28(false);
-                          setShowButtonList_56(!showButtonList_56);
+                          console.log("fly_30-----------------")
+                          setShowButtonList_10(false);
+                          setshowButtonList_20(false);
+                          setShowButtonList_40(false);
+                          setShowButtonList_30(!showButtonList_30);
                         }}
                         disabled={
                           compoundPending === true ||
@@ -881,21 +1015,23 @@ export default function StakingPage() {
                           ></path>
                         </svg>
                       </button>
-                      {showButtonList_56 === true && (
+                      {showButtonList_30 === true && (
                         <CommandBtnList
                           setRefresh={setRefresh}
                           refresh={refresh}
                           wrapperRef={wrapperRef}
-                          poolOption={56}
+                          poolOption={20}
                           userStakedByDuration_10={userStakedByDuration_10}
                           userStakedByDuration_20={userStakedByDuration_20}
                           userStakedByDuration_30={userStakedByDuration_30}
+                          userStakedByDuration_40={userStakedByDuration_40}
                           // _minTokensToReceive1={_minTokensToReceive1}
                           // _minTokensToReceive2={_minTokensToReceive2}
                           // _minTokensToReceive3={_minTokensToReceive3}
-                          setShowButtonList_14={setShowButtonList_14}
-                          setShowButtonList_28={setShowButtonList_28}
-                          setShowButtonList_56={setShowButtonList_56}
+                          setShowButtonList_10={setShowButtonList_10}
+                          setshowButtonList_20={setshowButtonList_20}
+                          setShowButtonList_30={setShowButtonList_30}
+                          setShowButtonList_40={setShowButtonList_40}
                           tokenRewarded_14={tokenRewarded_14}
                           tokenRewarded_28={tokenRewarded_28}
                           tokenRewarded_56={tokenRewarded_56}
@@ -915,10 +1051,11 @@ export default function StakingPage() {
                         wrapperRef={wrapperRef}
                         setRefresh={setRefresh}
                         refresh={refresh}
-                        poolOption={56}
+                        poolOption={20}
                         userStakedByDuration_10={userStakedByDuration_10}
                         userStakedByDuration_20={userStakedByDuration_20}
                         userStakedByDuration_30={userStakedByDuration_30}
+                        userStakedByDuration_40={userStakedByDuration_40}
                         // _minTokensToReceive1={_minTokensToReceive1}
                         // _minTokensToReceive2={_minTokensToReceive2}
                         // _minTokensToReceive3={_minTokensToReceive3}
@@ -937,15 +1074,18 @@ export default function StakingPage() {
                     </div>
                   </div>
                 )}
-                {userStakedByDuration_30 !== 0 && (
+///444
+
+{userStakedByDuration_40 !== 0 && (
+                  // <div className="w-full border border-gray-1 border-opacity-30 rounded-xl lg:px-6 px-3 py-5 relative bg-violet-6 bg-opacity-75 flex flex-col gap-5">
                   <div className="flex lg:flex-row flex-col lg:items-center lg:justify-between item-start lg:gap-0 gap-5 lg:p-5 p-3 rounded md:border-0 border border-gray-1 border-opacity-30 relative bg-violet-4">
                     <div className="gap-3 w-full flex items-center">
                       <div className="flex flex-col">
                         <h1 className="lg:text-lg text-base font-bold">
-                          60% APR
+                          40% APR
                         </h1>
                         <h2 className="lg:text-base text-sm font-medium text-white text-opacity-75">
-                          56 Day Lockup
+                          40 Days Lockup
                         </h2>
                       </div>
                     </div>
@@ -957,7 +1097,7 @@ export default function StakingPage() {
                       />
                       <div className="flex flex-col">
                         <h1 className="lg:text-lg text-base font-bold">
-                          {userStakedByDuration_30.toFixed(2)} $CHIBA
+                          {userStakedByDuration_40.toFixed(2)} $CHIBA
                         </h1>
                         <h2 className="lg:text-base text-sm font-medium text-white text-opacity-75">
                           Staked
@@ -972,7 +1112,7 @@ export default function StakingPage() {
                       />
                       <div className="flex flex-col">
                         <h1 className="lg:text-lg text-base font-bold">
-                          {unClaimed_56} ETH
+                          {unClaimed_28} ETH
                         </h1>
                         <h2 className="lg:text-base text-sm font-medium text-white text-opacity-75">
                           Unclaimed ETH
@@ -987,7 +1127,7 @@ export default function StakingPage() {
                       />
                       <div className="flex flex-col">
                         <h1 className="lg:text-lg text-base font-bold">
-                          {tokenRewarded_56} $CHIBA
+                          {tokenRewardedN_40 ? tokenRewardedN_40 : 0} $CHIBA
                         </h1>
                         <h2 className="lg:text-base text-sm font-medium text-white text-opacity-75">
                           Earned $CHIBA
@@ -996,17 +1136,19 @@ export default function StakingPage() {
                     </div>
                     <div className="gap-3 w-full flex items-center">
                       <LockRemain
-                        stakedTimePerUser={stakedTimePerUser_56}
-                        type={56}
+                        stakedTimePerUser={stakeStartTime_40}
+                        type={40}
                       />
                     </div>
                     <div className="lg:block hidden relative">
                       <button
                         className="outline-none"
                         onClick={() => {
-                          setShowButtonList_14(false);
-                          setShowButtonList_28(false);
-                          setShowButtonList_56(!showButtonList_56);
+                          console.log("fly_40----------------")
+                          setShowButtonList_10(false);
+                          setshowButtonList_20(false);
+                          setShowButtonList_40(!showButtonList_40);
+                          setShowButtonList_30(false);
                         }}
                         disabled={
                           compoundPending === true ||
@@ -1030,21 +1172,23 @@ export default function StakingPage() {
                           ></path>
                         </svg>
                       </button>
-                      {showButtonList_56 === true && (
+                      {showButtonList_40 === true && (
                         <CommandBtnList
                           setRefresh={setRefresh}
                           refresh={refresh}
                           wrapperRef={wrapperRef}
-                          poolOption={56}
+                          poolOption={40}
                           userStakedByDuration_10={userStakedByDuration_10}
                           userStakedByDuration_20={userStakedByDuration_20}
                           userStakedByDuration_30={userStakedByDuration_30}
+                          userStakedByDuration_40={userStakedByDuration_40}
                           // _minTokensToReceive1={_minTokensToReceive1}
                           // _minTokensToReceive2={_minTokensToReceive2}
                           // _minTokensToReceive3={_minTokensToReceive3}
-                          setShowButtonList_14={setShowButtonList_14}
-                          setShowButtonList_28={setShowButtonList_28}
-                          setShowButtonList_56={setShowButtonList_56}
+                          setShowButtonList_10={setShowButtonList_10}
+                          setshowButtonList_20={setshowButtonList_20}
+                          setShowButtonList_30={setShowButtonList_30}
+                          setShowButtonList_40={setShowButtonList_40}
                           tokenRewarded_14={tokenRewarded_14}
                           tokenRewarded_28={tokenRewarded_28}
                           tokenRewarded_56={tokenRewarded_56}
@@ -1064,10 +1208,11 @@ export default function StakingPage() {
                         wrapperRef={wrapperRef}
                         setRefresh={setRefresh}
                         refresh={refresh}
-                        poolOption={56}
+                        poolOption={40}
                         userStakedByDuration_10={userStakedByDuration_10}
                         userStakedByDuration_20={userStakedByDuration_20}
                         userStakedByDuration_30={userStakedByDuration_30}
+                        userStakedByDuration_40={userStakedByDuration_40}
                         // _minTokensToReceive1={_minTokensToReceive1}
                         // _minTokensToReceive2={_minTokensToReceive2}
                         // _minTokensToReceive3={_minTokensToReceive3}
@@ -1086,6 +1231,8 @@ export default function StakingPage() {
                     </div>
                   </div>
                 )}
+
+
               </div>
             </div>
           </div>

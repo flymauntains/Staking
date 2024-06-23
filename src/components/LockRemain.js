@@ -12,7 +12,9 @@ const LockRemain = ({stakedTimePerUser, type}) => {
     const getUpdateTime = () => {
         var d1 = new Date();
         const currentTime = Math.floor(d1.getTime() / 1000);
-        const periodTime = (86400 * type) + stakedTimePerUser - currentTime;
+        const secondsInDay = 86400;
+        const typeInSeonds = secondsInDay * type;
+        const periodTime = typeInSeonds + Number(stakedTimePerUser) - currentTime;
         if (periodTime > 0) {
             let temp = periodTime;
             setDay(Math.floor(temp / 86400));

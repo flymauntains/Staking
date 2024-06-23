@@ -45,6 +45,10 @@ export function useStakingContractStatus(refresh) {
     totalStakedPerDuration_20: 0,
     totalStakedPerDuration_30: 0,
     totalStakedPerDuration_40: 0,
+    stakeStartTime_10: 0,
+    stakeStartTime_20: 0,
+    stakeStartTime_30: 0,
+    stakeStartTime_40: 0,
   });
   const { address } = useAccount();
 
@@ -67,19 +71,19 @@ export function useStakingContractStatus(refresh) {
     const fetchData = async () => {
       try {
         const chibaTokenContractAddress = global.CHIBA_TOKEN.address;
-        const flyTokenContractAddress = "0x424705ca44ffBb4eF45d4bE15EFA1344dd24C219";
-        // const stakingContractAddress = global.STAKING_CONTRACTS;
-        const stakingContractAddress = "0x80BE817CFa322917C8B8fE0C0d24DDC5a1c4C806";
+        const flyTokenContractAddress =
+          "0x424705ca44ffBb4eF45d4bE15EFA1344dd24C219";
+        const stakingContractAddress = global.FlySTAKING_CONTRACTS;
         const tokenStakingContractAddress = global.STAKING_EXTENSION_CONTRACTS;
 
         const contracts = [
-        //   get the balance of user wallet's ChiBa token
-            {
-                address: chibaTokenContractAddress,
-                abi: chibaTokenContractABI,
-                functionName: "balanceOf",
-                args: [address],
-            },
+          //   get the balance of user wallet's ChiBa token
+          {
+            address: chibaTokenContractAddress,
+            abi: chibaTokenContractABI,
+            functionName: "balanceOf",
+            args: [address],
+          },
           // For 14 days pool
           {
             address: stakingContractAddress,
@@ -105,7 +109,7 @@ export function useStakingContractStatus(refresh) {
             functionName: "rewardOf",
             args: [0, address],
           },
-        //   For 28 days pool
+          //   For 28 days pool
           {
             address: stakingContractAddress,
             abi: StakingContractABI,
@@ -130,7 +134,7 @@ export function useStakingContractStatus(refresh) {
             functionName: "rewardOf",
             args: [1, address],
           },
-        //   For 56 days pool
+          //   For 56 days pool
           {
             address: stakingContractAddress,
             abi: StakingContractABI,
@@ -155,88 +159,86 @@ export function useStakingContractStatus(refresh) {
             functionName: "rewardOf",
             args: [2, address],
           },
-        //   {
-        //     address: flyTokenContractAddress,
-        //     abi: flyTokenContractABI,
-        //     functionName: "allowance",
-        //     args: [address, stakingContractAddress],
-        //   },
+          //   {
+          //     address: flyTokenContractAddress,
+          //     abi: flyTokenContractABI,
+          //     functionName: "allowance",
+          //     args: [address, stakingContractAddress],
+          //   },
           {
-            address: chibaTokenContractAddress,     /// reason
+            address: chibaTokenContractAddress, /// reason
             abi: chibaTokenContractABI,
             functionName: "allowance",
             args: [address, stakingContractAddress],
           },
-          
         ];
 
-        const PreAddress = "0x80BE817CFa322917C8B8fE0C0d24DDC5a1c4C806";
         const requests = [
           {
-            address: PreAddress,
+            address: global.FlySTAKING_CONTRACTS,
             abi: StakingContract,
             functionName: "getTotalStakedByDuration", // getTotalStakedByDuration
             args: [20],
           },
           {
-            address: PreAddress,
+            address: global.FlySTAKING_CONTRACTS,
             abi: StakingContract,
             functionName: "getStakingTokenBalance", // getStakingTokenBalance
             args: [address],
           },
           {
-            address: PreAddress,
+            address: global.FlySTAKING_CONTRACTS,
             abi: StakingContract,
             functionName: "totalStaked",
             args: [address], // totalStaked
           },
           {
-            address: PreAddress,
+            address: global.FlySTAKING_CONTRACTS,
             abi: StakingContract,
             functionName: "getUserStakedByDuration",
             args: [address, 10],
           },
           {
-            address: PreAddress,
+            address: global.FlySTAKING_CONTRACTS,
             abi: StakingContract,
             functionName: "getUserStakedByDuration",
             args: [address, 20],
           },
           {
-            address: PreAddress,
+            address: global.FlySTAKING_CONTRACTS,
             abi: StakingContract,
             functionName: "getUserStakedByDuration",
             args: [address, 30],
           },
           {
-            address: PreAddress,
+            address: global.FlySTAKING_CONTRACTS,
             abi: StakingContract,
             functionName: "getUserStakedByDuration",
             args: [address, 40],
           },
           {
-            address: PreAddress,
+            address: global.FlySTAKING_CONTRACTS,
             abi: StakingContract,
             functionName: "totalStakedPerDuration",
-            args: [10]
+            args: [10],
           },
           {
-            address: PreAddress,
+            address: global.FlySTAKING_CONTRACTS,
             abi: StakingContract,
             functionName: "totalStakedPerDuration",
-            args: [20]
+            args: [20],
           },
           {
-            address: PreAddress,
+            address: global.FlySTAKING_CONTRACTS,
             abi: StakingContract,
             functionName: "totalStakedPerDuration",
-            args: [30]
+            args: [30],
           },
           {
-            address: PreAddress,
+            address: global.FlySTAKING_CONTRACTS,
             abi: StakingContract,
             functionName: "totalStakedPerDuration",
-            args: [40]
+            args: [40],
           },
           {
             address: flyTokenContractAddress,
@@ -244,9 +246,45 @@ export function useStakingContractStatus(refresh) {
             functionName: "allowance",
             args: [address, stakingContractAddress],
           },
+          {
+            address: global.FlySTAKING_CONTRACTS,
+            abi: StakingContract,
+            functionName: "getCurrentTime",
+          },
+          {
+            address: global.FlySTAKING_CONTRACTS,
+            abi: StakingContract,
+            functionName: "getStakeStartTime",
+            args: [address, 10]
+          },
+          {
+            address: global.FlySTAKING_CONTRACTS,
+            abi: StakingContract,
+            functionName: "getStakeStartTime",
+            args: [address, 20]
+          },
+          {
+            address: global.FlySTAKING_CONTRACTS,
+            abi: StakingContract,
+            functionName: "getStakeStartTime",
+            args: [address, 30]
+          },
+          {
+            address: global.FlySTAKING_CONTRACTS,
+            abi: StakingContract,
+            functionName: "getStakeStartTime",
+            args: [address, 40]
+          },
+
+          // {
+          //   address: global.FlySTAKING_CONTRACTS,
+          //   abi: StakingContract,
+          //   functionName: "calculateReward",
+          //   args: [address, totalStakedPerDuration_10, "10"]
+          // },
         ];
         const receiveData = await multicall({ contracts: requests });
-        console.log("fly_contractstatus_receiveData", receiveData);
+        console.log("fly_receiveData", receiveData);
         const _data = await multicall({
           chainId: global.chain.id,
           contracts,
@@ -282,19 +320,19 @@ export function useStakingContractStatus(refresh) {
                   formatUnits(receiveData[3].result, global.EthDecimals)
                 )
               : 0,
-              userStakedByDuration_20:
+          userStakedByDuration_20:
             receiveData[4].status === "success"
               ? parseFloat(
                   formatUnits(receiveData[4].result, global.EthDecimals)
                 )
               : 0,
-              userStakedByDuration_30:
+          userStakedByDuration_30:
             receiveData[5].status === "success"
               ? parseFloat(
                   formatUnits(receiveData[5].result, global.EthDecimals)
                 )
               : 0,
-              userStakedByDuration_40:
+          userStakedByDuration_40:
             receiveData[6].status === "success"
               ? parseFloat(
                   formatUnits(receiveData[6].result, global.EthDecimals)
@@ -306,37 +344,83 @@ export function useStakingContractStatus(refresh) {
                   formatUnits(receiveData[7].result, global.EthDecimals)
                 )
               : 0,
-              totalStakedPerDuration_20:
+          totalStakedPerDuration_20:
             receiveData[8].status === "success"
               ? parseFloat(
                   formatUnits(receiveData[8].result, global.EthDecimals)
                 )
               : 0,
-              totalStakedPerDuration_30:
+          totalStakedPerDuration_30:
             receiveData[9].status === "success"
               ? parseFloat(
                   formatUnits(receiveData[9].result, global.EthDecimals)
                 )
               : 0,
-              totalStakedPerDuration_40:
+          totalStakedPerDuration_40:
             receiveData[10].status === "success"
               ? parseFloat(
                   formatUnits(receiveData[10].result, global.EthDecimals)
                 )
               : 0,
-              allowance1:
+          allowance1:
             receiveData[11].status === "success"
               ? parseFloat(
                   formatUnits(receiveData[11].result, global.EthDecimals)
                 )
-                : 0,
-                walletBalance:
-                _data[0].status === "success"
-                ? parseFloat(
-                    formatUnits(_data[0].result, global.CHIBA_TOKEN.decimals)
+              : 0,
+          getCurrentTime:
+            receiveData[12].status === "success" ? receiveData[11].result : 0,
+            stakeStartTime_10:
+            receiveData[13].status === "success"
+              ? (
+                  Number(receiveData[13].result)
+                )
+              : 0,
+              stakeStartTime_20:
+            receiveData[14].status === "success"
+              ? (
+                  Number(receiveData[14].result)
+                )
+              : 0,
+              stakeStartTime_30:
+            receiveData[15].status === "success"
+              ? (
+                  Number(receiveData[15].result)
+                )
+              : 0,
+              stakeStartTime_40:
+            receiveData[16].status === "success"
+              ? (
+                  Number(receiveData[16].result)
+                )
+              : 0,
+          // tokenRewarded_10:
+          // receiveData[13].status === "success"
+          //     ? parseFloat(
+          //         formatUnits(receiveData[13].result, global.EthDecimals)
+          //       )
+          //     : 0,
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+            walletBalance:
+            _data[0].status === "success"
+              ? parseFloat(
+                  formatUnits(_data[0].result, global.CHIBA_TOKEN.decimals)
                 ).toFixed(2)
-                : 0,
-                // For 14 days pool
+              : 0,
+          // For 14 days pool
           totalEthRewarded_14:
             _data[1].status === "success"
               ? parseFloat(
@@ -363,12 +447,12 @@ export function useStakingContractStatus(refresh) {
                   formatUnits(_data[3].result, global.EthDecimals)
                 ).toFixed(10)
               : 0,
-        //   tokenRewarded_14:
-        //     _data[4].status === "success"
-        //       ? parseFloat(
-        //           formatUnits(_data[4].result, global.CHIBA_TOKEN.decimals)
-        //         ).toFixed(5)
-        //       : 0,
+          //   tokenRewarded_14:
+          //     _data[4].status === "success"
+          //       ? parseFloat(
+          //           formatUnits(_data[4].result, global.CHIBA_TOKEN.decimals)
+          //         ).toFixed(5)
+          //       : 0,
           // For 28 days pool
           totalEthRewarded_28:
             _data[5].status === "success"
