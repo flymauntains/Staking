@@ -1,0 +1,152 @@
+{userStakedByDuration_20 !== 0 && (
+    // <div className="w-full border border-gray-1 border-opacity-30 rounded-xl lg:px-6 px-3 py-5 relative bg-violet-6 bg-opacity-75 flex flex-col gap-5">
+    <div className="flex lg:flex-row flex-col lg:items-center lg:justify-between item-start lg:gap-0 gap-5 lg:p-5 p-3 rounded md:border-0 border border-gray-1 border-opacity-30 relative bg-violet-4">
+      <div className="gap-3 w-full flex items-center">
+        <div className="flex flex-col">
+          <h1 className="lg:text-lg text-base font-bold">
+            40% APR
+          </h1>
+          <h2 className="lg:text-base text-sm font-medium text-white text-opacity-75">
+            28 Day Lockup
+          </h2>
+        </div>
+      </div>
+      <div className="gap-3 w-full flex flex-row lg:flex-col items-center lg:items-start">
+        <img
+          src={chibaIco}
+          alt=""
+          className="lg:h-14 lg:w-16 md:h-14 md:w-16 h-10 w-10"
+        />
+        <div className="flex flex-col">
+          <h1 className="lg:text-lg text-base font-bold">
+            {userStakedByDuration_20.toFixed(2)} $CHIBA
+          </h1>
+          <h2 className="lg:text-base text-sm font-medium text-white text-opacity-75">
+            Staked
+          </h2>
+        </div>
+      </div>
+      <div className="gap-3 w-full flex flex-row lg:flex-col items-center lg:items-start">
+        <img
+          src={giftIco}
+          alt=""
+          className="lg:h-8 lg:w-8 w-6 h-6"
+        />
+        <div className="flex flex-col">
+          <h1 className="lg:text-lg text-base font-bold">
+            {unClaimed_28} ETH
+          </h1>
+          <h2 className="lg:text-base text-sm font-medium text-white text-opacity-75">
+            Unclaimed ETH
+          </h2>
+        </div>
+      </div>
+      <div className="gap-3 w-full flex flex-row lg:flex-col items-center lg:items-start">
+        <img
+          src={chibaIco}
+          alt=""
+          className="lg:h-14 lg:w-16 md:h-14 md:w-16 h-10 w-10"
+        />
+        <div className="flex flex-col">
+          <h1 className="lg:text-lg text-base font-bold">
+            {tokenRewardedN_20 ? tokenRewardedN_20 : 0} $CHIBA
+            {/* {tokenRewarded_28} $CHIBA */}
+          </h1>
+          <h2 className="lg:text-base text-sm font-medium text-white text-opacity-75">
+            Earned $CHIBA
+          </h2>
+        </div>
+      </div>
+      <div className="gap-3 w-full flex items-center">
+        <LockRemain
+          stakedTimePerUser={stakeStartTime_20}
+          type={20}
+        />
+      </div>
+      <div className="lg:block hidden relative">
+        <button
+          className="outline-none"
+          onClick={() => {
+            setShowButtonList_10(false);
+            setShowButtonList_30(false);
+            setShowButtonList_40(false);
+            setshowButtonList_20(!showButtonList_20);
+          }}
+          disabled={
+            compoundPending === true ||
+            claimEthPending === true ||
+            claimChibaPending === true ||
+            unstakePending === true
+              ? true
+              : false
+          }
+        >
+          <svg
+            width="16"
+            height="29"
+            viewBox="0 0 16 29"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M5.74539 25.4064C5.74539 24.6634 6.04231 23.9509 6.57082 23.4256C7.09933 22.9002 7.81615 22.6051 8.56357 22.6051C9.311 22.6051 10.0278 22.9002 10.5563 23.4256C11.0848 23.9509 11.3818 24.6634 11.3818 25.4064C11.3818 26.1493 11.0848 26.8618 10.5563 27.3872C10.0278 27.9125 9.311 28.2076 8.56357 28.2076C7.81615 28.2076 7.09933 27.9125 6.57082 27.3872C6.04231 26.8618 5.74539 26.1493 5.74539 25.4064ZM5.74539 14.2012C5.74539 13.4583 6.04231 12.7458 6.57082 12.2204C7.09933 11.6951 7.81615 11.4 8.56357 11.4C9.311 11.4 10.0278 11.6951 10.5563 12.2204C11.0848 12.7458 11.3818 13.4583 11.3818 14.2012C11.3818 14.9442 11.0848 15.6567 10.5563 16.182C10.0278 16.7074 9.311 17.0025 8.56357 17.0025C7.81615 17.0025 7.09933 16.7074 6.57082 16.182C6.04231 15.6567 5.74539 14.9442 5.74539 14.2012ZM5.74539 2.99611C5.74539 2.25316 6.04231 1.54064 6.57082 1.0153C7.09933 0.489958 7.81615 0.194824 8.56357 0.194824C9.311 0.194824 10.0278 0.489958 10.5563 1.0153C11.0848 1.54064 11.3818 2.25316 11.3818 2.99611C11.3818 3.73905 11.0848 4.45157 10.5563 4.97691C10.0278 5.50225 9.311 5.79739 8.56357 5.79739C7.81615 5.79739 7.09933 5.50225 6.57082 4.97691C6.04231 4.45157 5.74539 3.73905 5.74539 2.99611Z"
+              fill="white"
+            ></path>
+          </svg>
+        </button>
+        {showButtonList_20 === true && (
+          <CommandBtnList
+            setRefresh={setRefresh}
+            refresh={refresh}
+            wrapperRef={wrapperRef}
+            poolOption={20}
+            userStakedByDuration_10={userStakedByDuration_10}
+            userStakedByDuration_20={userStakedByDuration_20}
+            userStakedByDuration_30={userStakedByDuration_30}
+            // _minTokensToReceive1={_minTokensToReceive1}
+            // _minTokensToReceive2={_minTokensToReceive2}
+            // _minTokensToReceive3={_minTokensToReceive3}
+            setShowButtonList_10={setShowButtonList_10}
+            setshowButtonList_20={setshowButtonList_20}
+            setShowButtonList_30={setShowButtonList_30}
+            tokenRewarded_14={tokenRewarded_14}
+            tokenRewarded_28={tokenRewarded_28}
+            tokenRewarded_56={tokenRewarded_56}
+            compoundPending={compoundPending}
+            setCompoundPending={setCompoundPending}
+            claimEthPending={claimEthPending}
+            setClaimEthPending={setClaimEthPending}
+            claimChibaPending={claimChibaPending}
+            setClaimChibaPending={setClaimChibaPending}
+            unstakePending={unstakePending}
+            setUnstakePending={setUnstakePending}
+          />
+        )}
+      </div>
+      <div className="md:hidden relative">
+        <MobileCommandBtnList
+          wrapperRef={wrapperRef}
+          setRefresh={setRefresh}
+          refresh={refresh}
+          poolOption={20}
+          userStakedByDuration_10={userStakedByDuration_10}
+          userStakedByDuration_20={userStakedByDuration_20}
+          userStakedByDuration_30={userStakedByDuration_30}
+          // _minTokensToReceive1={_minTokensToReceive1}
+          // _minTokensToReceive2={_minTokensToReceive2}
+          // _minTokensToReceive3={_minTokensToReceive3}
+          tokenRewarded_14={tokenRewarded_14}
+          tokenRewarded_28={tokenRewarded_28}
+          tokenRewarded_56={tokenRewarded_56}
+          compoundPending={compoundPending}
+          setCompoundPending={setCompoundPending}
+          claimEthPending={claimEthPending}
+          setClaimEthPending={setClaimEthPending}
+          claimChibaPending={claimChibaPending}
+          setClaimChibaPending={setClaimChibaPending}
+          unstakePending={unstakePending}
+          setUnstakePending={setUnstakePending}
+        />
+      </div>
+    </div>
+  )}

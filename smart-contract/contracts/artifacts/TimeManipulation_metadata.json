@@ -1,0 +1,77 @@
+{
+	"compiler": {
+		"version": "0.8.24+commit.e11b9ed9"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"inputs": [],
+				"name": "currentTime",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "timestamp",
+						"type": "uint256"
+					}
+				],
+				"name": "setCurrentTime",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/7_MockTimestamp.sol": "TimeManipulation"
+		},
+		"evmVersion": "berlin",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/7_MockTimestamp.sol": {
+			"keccak256": "0xf1932b225c3b01d7b55a8ebe43f10b300178069b7a0ace2ae591e5555a09c9d7",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://6e6c9d35de5b66ac5eb11f77988d8ac8044ed231fbd68accf1b9916cc0e7bc48",
+				"dweb:/ipfs/Qma4iwYdvNE9b1vssznwv95Ymg93EVVL7AgkAUGbuQbFjn"
+			]
+		}
+	},
+	"version": 1
+}

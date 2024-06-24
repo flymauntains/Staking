@@ -1,0 +1,90 @@
+{
+	"compiler": {
+		"version": "0.8.24+commit.e11b9ed9"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "target",
+						"type": "address"
+					}
+				],
+				"name": "AddressEmptyCode",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "AddressInsufficientBalance",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "FailedInnerCall",
+				"type": "error"
+			}
+		],
+		"devdoc": {
+			"details": "Collection of functions related to the address type",
+			"errors": {
+				"AddressEmptyCode(address)": [
+					{
+						"details": "There's no code at `target` (it is not a contract)."
+					}
+				],
+				"AddressInsufficientBalance(address)": [
+					{
+						"details": "The ETH balance of the account is not enough to perform the operation."
+					}
+				],
+				"FailedInnerCall()": [
+					{
+						"details": "A call to an address target failed. The target may have reverted."
+					}
+				]
+			},
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/4_Staking_flattened.sol": "Address"
+		},
+		"evmVersion": "paris",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/4_Staking_flattened.sol": {
+			"keccak256": "0xc5a0916bbdc6c00bdbd8f4b84ca2e3c0a286cf645373ca46065713d9d9586b82",
+			"urls": [
+				"bzz-raw://f4eba9c9b24956f9ec037715ee87243d98bbe0ec9bf0932c3d0663cf45eadb2d",
+				"dweb:/ipfs/QmQZ3PLge77hrszcu3ppNDuHuxCCJLp84qR6NX9n7NXiPm"
+			]
+		}
+	},
+	"version": 1
+}
