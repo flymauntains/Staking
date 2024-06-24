@@ -1,16 +1,13 @@
 import { global } from "../config/global";
-import StakingContractABI from "../assets/abi/stakingContract.json";
-import tokenStakingContractABI from "../assets/abi/tokenStakingContract.json";
 import { formatUnits, parseUnits } from "viem";
 import { writeContract, prepareWriteContract, waitForTransaction } from "@wagmi/core"
 import { toast } from "react-toastify"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
-import StakingContract1ABI from "../assets/abi/staking.json";
+import StakingContractABI from "../assets/abi/staking.json";
 
 const CommandBtnList = (props) => {
     const stakingContractAddress = global.FlySTAKING_CONTRACTS;
-    const tokenStakingContractAddress = global.STAKING_EXTENSION_CONTRACTS;
 
     let data = {
         chainId: global.chain.id,
@@ -19,23 +16,20 @@ const CommandBtnList = (props) => {
     const handleClaimChibaRewards = async (poolOption) => {
         props.setClaimChibaPending(true)
         try {
-          console.log("fly_claim_poolOption", poolOption)
-            // if (props.tokenRewards_14 > 0 || props.tokenRewards_28 > 0 || props.tokenRewards_56 > 0) {
+            // if (props.tokenRewards_10 > 0 || props.tokenRewards_20 > 0 || props.tokenRewards_30 > 0 || props.tokenRewards_40 > 0) {
             if (poolOption === 10 && props.userStakedByDuration_10 > 0) {
                 if (props.userStakedByDuration_10 > 0) {
                     data = {
                         ...data,
                         address: stakingContractAddress,
-                        abi: StakingContract1ABI,
+                        abi: StakingContractABI,
                         functionName: 'claimRewards',
                         args: [((props.userStakedByDuration_10) * 10 ** global.EthDecimals), "10"]
                     }
-                    console.log("fly_writecontract_data", data);
-                    console.log("fly_props.userStakedByduariton", props.userStakedByDuration_10)
                 }
             } 
             else if (poolOption === 10 && props.userStakedByDuration_10 <= 0) {
-            // else if (poolOption === 15) {
+            // else if (poolOption === 10) {
                 toast.warn("Warning! There are not $CHIBA Rewards!")
                 props.setClaimChibaPending(false)
                 props.setShowButtonList_10(false);
@@ -45,12 +39,11 @@ const CommandBtnList = (props) => {
                 return
             }
             if (poolOption === 20 && props.userStakedByDuration_20 > 0) {
-                console.log("fly_user",props.userStakedByDuration_20)
                 if (props.userStakedByDuration_20 > 0) {
                     data = {
                         ...data,
                         address: stakingContractAddress,
-                        abi: StakingContract1ABI,
+                        abi: StakingContractABI,
                         functionName: 'claimRewards',
                         args: [((props.userStakedByDuration_20) * 10 ** global.EthDecimals), "20"]
                     }
@@ -64,17 +57,36 @@ const CommandBtnList = (props) => {
                 props.setShowButtonList_40(false);
                 return
             }
-            if (poolOption === 30 && props.userStakedByDuration_20 > 0) {
+            if (poolOption === 30 && props.userStakedByDuration_30 > 0) {
                 if (props.userStakedByDuration_30 > 0) {
                     data = {
                         ...data,
                         address: stakingContractAddress,
-                        abi: StakingContract1ABI,
+                        abi: StakingContractABI,
                         functionName: 'claimRewards',
                         args: [((props.userStakedByDuration_30) * 10 ** global.EthDecimals), "30"]
                     }
                 }
-            } else if (poolOption === 30 && props.userStakedByDuration_20 <= 0) {
+            } else if (poolOption === 30 && props.userStakedByDuration_30 <= 0) {
+                toast.warn("Warning! There are not $CHIBA Rewards!")
+                props.setClaimChibaPending(false)
+                props.setShowButtonList_10(false);
+                props.setshowButtonList_20(false);
+                props.setShowButtonList_30(false);
+                props.setShowButtonList_40(false);
+                return
+            }
+            if (poolOption === 40 && props.userStakedByDuration_40 > 0) {
+                if (props.userStakedByDuration_40 > 0) {
+                    data = {
+                        ...data,
+                        address: stakingContractAddress,
+                        abi: StakingContractABI,
+                        functionName: 'claimRewards',
+                        args: [((props.userStakedByDuration_40) * 10 ** global.EthDecimals), "40"]
+                    }
+                }
+            } else if (poolOption === 40 && props.userStakedByDuration_40 <= 0) {
                 toast.warn("Warning! There are not $CHIBA Rewards!")
                 props.setClaimChibaPending(false)
                 props.setShowButtonList_10(false);
@@ -84,7 +96,6 @@ const CommandBtnList = (props) => {
                 return
             }
             const preparedData = await prepareWriteContract(data)
-            console.log("fly_preparedData", preparedData)
             const writeData = await writeContract(preparedData)
             const txPendingData = waitForTransaction(writeData)
             toast.promise(txPendingData, {
@@ -126,18 +137,15 @@ const CommandBtnList = (props) => {
         try {
             // if (props.stakedAmountPerUser_14 > 0 && poolOption === 10) {
             if (props.userStakedByDuration_10 > 0 && poolOption === 10) {
-                console.log("fly_unstake_pooloption", poolOption)
                 data = {
                     ...data,
                     address: stakingContractAddress,
-                    abi: StakingContract1ABI,
+                    abi: StakingContractABI,
                     functionName: 'unstake',
                     args: [(props.userStakedByDuration_10 * 10 ** global.EthDecimals), "10"]
                 }
-                console.log("fly_unstake_props",props.userStakedByDuration_10 * 10 ** global.EthDecimals )
-                console.log("fly_unstake_option_14",poolOption)
-            } else if (props.userStakedByDuration_10 <= 0) {
-                toast.warn("Warning! There are not $CHIBA to unstake!")
+            } else if (props.userStakedByDuration_10 <= 0  && poolOption === 10) {
+                toast.warn("Warning! There are not $CHIBA to unstake10!")
                 props.setUnstakePending(false)
                 props.setShowButtonList_10(false);
                 props.setshowButtonList_20(false);
@@ -149,13 +157,13 @@ const CommandBtnList = (props) => {
               data = {
                 ...data,
                 address: stakingContractAddress,
-                abi: StakingContract1ABI,
+                abi: StakingContractABI,
                 functionName: 'unstake',
-                args: [(props.userStakedByDuration_10 * 10 ** global.EthDecimals), "20"]
+                args: [(props.userStakedByDuration_20 * 10 ** global.EthDecimals), "20"]
               }
-              console.log("fly_option_28", poolOption)
-            } else if (props.userStakedByDuration_20 <= 0) {
-                toast.warn("Warning! There are not $CHIBA to unstake!!!!")
+            // } else if (props.userStakedByDuration_20 <= 0 ) {
+            } else if (props.userStakedByDuration_20 <= 0  && poolOption === 20 ) {
+                toast.warn("Warning! There are not $CHIBA to unstake20!!!!")
                 props.setUnstakePending(false)
                 props.setShowButtonList_10(false);
                 props.setshowButtonList_20(false);
@@ -164,17 +172,15 @@ const CommandBtnList = (props) => {
                 return
             }
             if (props.userStakedByDuration_30 > 0 && poolOption === 30) {
-              console.log("fly_option_56", poolOption)
-              console.log("fly_userStakedByDuration_30", props.userStakedByDuration_30)
                 data = {
                     ...data,
                     address: stakingContractAddress,
-                    abi: StakingContract1ABI,
+                    abi: StakingContractABI,
                     functionName: 'unstake',
                     args: [(props.userStakedByDuration_30 * 10 ** global.EthDecimals), "30"]
                 }
-            } else if (props.userStakedByDuration_30 <= 0) {
-                toast.warn("Warning! There are not $CHIBA to unstake!!!!!")
+            } else if (props.userStakedByDuration_30 <= 0 && poolOption === 30 ) {
+                toast.warn("Warning! There are not $CHIBA to unstake30!!!!!")
                 props.setUnstakePending(false)
                 props.setShowButtonList_10(false);
                 props.setshowButtonList_20(false);
@@ -182,8 +188,24 @@ const CommandBtnList = (props) => {
                 props.setShowButtonList_40(false);
                 return
             }
+            if (props.userStakedByDuration_40 > 0 && poolOption === 40) {
+                  data = {
+                      ...data,
+                      address: stakingContractAddress,
+                      abi: StakingContractABI,
+                      functionName: 'unstake',
+                      args: [(props.userStakedByDuration_40 * 10 ** global.EthDecimals), "40"]
+                  }
+              } else if (props.userStakedByDuration_40 <= 0 && poolOption === 40 ) {
+                  toast.warn("Warning! There are not $CHIBA to unstake30!!!!!")
+                  props.setUnstakePending(false)
+                  props.setShowButtonList_10(false);
+                  props.setshowButtonList_20(false);
+                  props.setShowButtonList_30(false);
+                  props.setShowButtonList_40(false);
+                  return
+              }
             const preparedData = await prepareWriteContract(data)
-            console.log("fly_preparedData", preparedData)
             const writeData = await writeContract(preparedData)
             const txPendingData = waitForTransaction(writeData)
             toast.promise(txPendingData, {

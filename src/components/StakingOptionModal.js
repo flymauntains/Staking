@@ -363,15 +363,13 @@ const StakingOptionModal = (props) => {
                                                         </div>
                                                         <div className="flex items-center gap-2">
                                                             <img src={chibaIco} alt="" className="lg:h-12 lg:w-14 md:h-12 md:w-14 w-10 h-10" />
-                                                            <h1 className="text-white text-opacity-75 text-sm font-medium">$CHIBA Balance: </h1>
-                                                            <h1 className="text-white text-sm font-medium">{props.walletBalance} $CHIBAq</h1>
+                                                            <h1 className="text-white text-opacity-75 text-sm font-medium">FLY Balance: </h1>
+                                                            <h1 className="text-white text-sm font-medium">{props.walletBalance} FLY</h1>
                                                         </div>
                                                     </div>
-                                                    <p className="text-sm font-medium text-white text-opacity-75"> You are staking {stakeAmount} $CHIBA tokens. </p>
+                                                    <p className="text-sm font-medium text-white text-opacity-75"> You are staking {stakeAmount} FLY tokens. </p>
                                                     <button onClick={handleBtn}
                                                         className={clsx("font-medium text-center text-white text-sm rounded font-16 py-2.5 px-5 w-full connect-button")}
-                                                    // className={clsx("font-medium text-center text-white text-sm rounded font-16 py-2.5 px-5 w-full", btnDisabled ? "connect-button-disable" : "connect-button")}
-                                                    // disabled={btnDisabled ? true : false}
                                                     >
                                                         <div>
                                                             {btnMsg}

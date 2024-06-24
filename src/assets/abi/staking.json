@@ -233,6 +233,30 @@
                 "internalType": "address",
                 "name": "user",
                 "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "durationDays",
+                "type": "uint256"
+            }
+        ],
+        "name": "getStakeStartTime",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "user",
+                "type": "address"
             }
         ],
         "name": "getStakingTokenBalance",
@@ -313,19 +337,6 @@
             }
         ],
         "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "uint256",
-                "name": "_mockTime",
-                "type": "uint256"
-            }
-        ],
-        "name": "setMockTime",
-        "outputs": [],
-        "stateMutability": "nonpayable",
         "type": "function"
     },
     {
