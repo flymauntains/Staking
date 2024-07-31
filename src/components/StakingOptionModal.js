@@ -68,19 +68,11 @@ const StakingOptionModal = (props) => {
         }
         if (Number(stakeAmount) > props.amount) {
             setBtnMsg("Insufficient CHIBA")
-            setErrMsg("Insufficient CHIBA token. Please buy more CHIBA!")
+            setErrMsg("Insufficient FLY token. Please buy more FLY!")
             // setBtnDisabled(true)
             return
         }
-        console.log("fly_props.allowance", props.allowance);
-        console.log("fly_props.allowance1", props.allowance1);
-        console.log("fly_stakeAmount", stakeAmount);
-        // if (props.allowance ? props.allowance : 0< Number(stakeAmount)) {
-        //     setBtnMsg("Approve")
-        //     setErrMsg("Insufficient allowance amount. Please increase allowance amount!");
-        //     // setBtnDisabled(false)
-        //     return
-        // }
+        
         if (props.allowance1 < Number(stakeAmount)) {
             setBtnMsg("Approve")
             setErrMsg("Insufficient allowance1 amount. Please increase allowance1 amount!");

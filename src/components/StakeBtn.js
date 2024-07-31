@@ -22,7 +22,7 @@ export const StakeBtn = function (props) {
       }
 
       if (Number(props.amount) === 0) {
-        toast.warn("Insufficient CHIBA token! Please buy more CHIBA!")
+        toast.warn("Insufficient FLY token! Please buy more FLY!")
         return
       }
       setOpen(true);
